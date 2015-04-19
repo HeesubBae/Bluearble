@@ -1,0 +1,203 @@
+<html>
+<head>
+	<meta charset='euc-kr'>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>jQuery Mobile: Theme Download</title>
+	<link rel="stylesheet" href="themes/bhs_theme_1_3_2_02.css" />
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile.structure-1.3.2.min.css" />
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+	<script src="/themes/jquery.bpopup.min.js"></script>
+	<script src="javascripts/json.js"></script> <!-- for ie -->
+	<script src="javascripts/monitor.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+
+<style type="text/css">
+	 .game_stage_user_name { font-size:20px; }
+	 .game_stage_user_current_price { font-size:20px; }
+	 .game_stage_user_div	{ float:left; }
+
+	 .dice_result_div		{height:210px; margin-top:20px; padding-top:18px; vertical-align:middle; text-align:center; background-repeat:no-repeat; font-size:140px; font-weight:bold; }
+
+	 .turn_user_div			{width:500px; height:500px; float:left;}
+
+	 .turn_user_name		{width:500px; height:100px; margin-top:120px; text-align:center; color:white;}
+	 .turn_user_name_span1	{font-size:80px; }
+	 .turn_user_name_span2	{font-size:30px;}
+
+	 #broad_cast_popup		{text-align:center; color:white;}
+	 .broad_cast_land_name	{font-size:50px; margin-top:30px;}
+	 .broad_cast_end_text	{font-size:50px; margin-top:20px;}
+
+	 #youwin_popup			{text-align:center; color:white;}
+</style>
+
+<script type="text/javascript">
+
+var turn_popup;
+var dice_popup;
+
+	   $(document).ready(function(){
+			  
+			  var socket = new io.connect(null, { port: 9001, rememberTransport: false});
+				
+				socket.on('connect', function () {
+					var object = {'user_name':'MONITOR','isBot':777};
+					JSON.stringify(object);
+					socket.emit('send_myinfo',object);
+				});
+
+
+				socket.on('connection_success',function(data){
+					var obj=JSON.parse(data);	
+					
+					$.mobile.changePage("#game_stage",{transition:"slideup"});
+
+
+					//console.log(obj);
+				});
+
+
+				socket.on('user_list',function(data){
+					//console.log(data);
+					/*
+					var object=JSON.parse(data);
+					$(object).each(function (i) {
+						alert(object[i].user_name);
+					});
+					$('#element_to_pop_up').bPopup({
+						autoClose: 1000 //Auto closes after 1000ms/1sec
+					});*/					
+
+
+				});	// 대기방 사용자 리스트 갱신
+
+
+				socket.on('game_start',function(data){
+
+
+				});	// 게임시작 알림
+
+				
+				socket.on('decide_first',function(data){
+
+				}); // 순위를 정하세요
+
+
+				socket.on('decide_order',function(data){
+
+				}); // 주사위던진 순위 보여주기
+
+				
+				socket.on('please_wait',function(data){
+					var object=JSON.parse(data);
+					please_wait(object);	
+				}); 
+
+				socket.on('turn',function(data){ 
+					var object=JSON.parse(data);
+					turn(object);
+
+					turn_popup = $('#turn_popup');
+					turn_popup.bPopup({
+						//autoClose: 1000
+					});				
+				}); // 누구의 차례입니다.
+
+				socket.on('dice',function(data){
+					var object=JSON.parse(data);
+					dice(object);
+
+					dice_popup =  $('#dice_popup')
+					dice_popup.bPopup({
+						onOpen: function(){ turn_popup.close();},
+						autoClose: 3000,
+						//transition:'slideIn',
+						//transitionClose:'slideBack'
+					})
+				}); // 누가 주사위 값이 얼마 나왔다 바로 뒤에
+
+				socket.on('dice_result',function(data){
+
+				}); // 현 주사위 값으로 선택가능한 옵션들
+
+
+				socket.on('broad_cast',function(data){
+					
+					var object=JSON.parse(data);
+					broad_cast(object);
+
+					var broad_cast_popup = $('#broad_cast_popup')
+					broad_cast_popup.bPopup({
+						autoClose: 1500
+					});	
+				}); // 이러이러한 선택을 누가 했다.
+
+				socket.on('please_wait',function(data){
+
+				});
+
+				socket.on('user_list',function(data){
+					//alert(data);
+				});
+			
+				socket.on('youwin',function(data){
+					var object=JSON.parse(data);
+					youwin(object);
+				});
+
+				socket.on('all_clear',function(data){
+					$('#game_stage').empty();
+				});
+	
+		});
+
+
+
+
+
+
+</script>
+
+</head>
+<body>
+
+
+<div id="win" data-role="page" >
+	<div data-role="header">
+		<h1>bar</h1>
+	</div>
+	<div role="main">
+		<p>hi</p>
+	</div>
+	<div data-role="footer">
+		<h4>footer</h4>
+	</div>
+</div>
+
+
+<div id="game_stage" data-role='page'>
+
+</div>
+
+<!--Start of second page-->
+<div data-role="page" id="dialog">
+ <div data-role="header">
+     <h1>bar</h1>
+    </div> 
+    <div role="main" class="ui-content">
+     <p><a href="javascript:close_dialog();">back to foo</a></p>
+    </div>
+    <div data-role="footer">
+     <h4>Page Footer</h4>
+    </div>
+</div>
+
+
+
+<div id="turn_popup" style="width:500px; height:500px;"></div>
+<div id="dice_popup" style="width:650px; height:600px;"></div>
+<div id="broad_cast_popup" style="width:550px; height:500px;"></div>
+<div id="youwin_popup" style="width:550px; height:500px;"></div>
+</body>
+</html>

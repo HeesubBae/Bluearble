@@ -1,0 +1,206 @@
+<!doctype html>
+<html>
+  <head>
+    <title>socket.io client test</title>
+        
+    <script src="/json.js"></script> <!-- for ie -->
+    <script src="/socket.io/socket.io.js"></script>
+    <!--<script src="jquery-1.6.2.min.js"></script>-->
+	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    
+   
+    <script>
+    $(document).ready(function(){
+		show_moter_table();
+		show_led_table();
+
+		$("#send_submit").click(function(){
+			var msg=$("#send_message").val();
+			socket.emit('send_to_arduino',msg);
+		});
+	});
+
+      var socket = new io.connect(null, { port: 9001, rememberTransport: false});
+
+	  socket.on('test', function(data){
+		socket.emit('test',data);
+      });
+
+	  socket.on('conn', function(data){
+	  var now = new Date();
+		alert(now);
+	  });
+
+
+	  function led_on_user1_01to05()
+	  {
+			var a = 'a';
+//			var codeA = ;
+			codeB = Number(a.charCodeAt());
+			for(i=1; i<=5; i++)
+			{
+				cb=codeB+i
+				var ck = String.fromCharCode(cb)
+				var msg="1L";
+				msg=msg+ck;
+				for(j=1; j<=3; j++){
+					var kk=msg;
+					kk+j+"";
+					socket.emit('send_to_arduino',msg+j+"");
+				}
+				
+			}
+	  }
+
+	  function led_on_user1_06to10()
+	  {
+			var a = 'a';
+//			var codeA = ;
+			codeB = Number(a.charCodeAt());
+			for(i=6; i<=10; i++)
+			{
+				cb=codeB+i
+				var ck = String.fromCharCode(cb)
+				var msg="1L";
+				msg=msg+ck;
+				for(j=1; j<=3; j++){
+					var kk=msg;
+					kk+j+"";
+					socket.emit('send_to_arduino',msg+j+"");
+				}
+				
+			}
+	  }
+
+
+	  function led_on_user1_11to15()
+	  {
+			var a = 'a';
+//			var codeA = ;
+			codeB = Number(a.charCodeAt());
+			for(i=11; i<=15; i++)
+			{
+				cb=codeB+i
+				var ck = String.fromCharCode(cb)
+				var msg="1L";
+				msg=msg+ck;
+				for(j=1; j<=3; j++){
+					var kk=msg;
+					kk+j+"";
+					socket.emit('send_to_arduino',msg+j+"");
+				}
+				
+			}
+	  }
+
+	  function led_on_user1_16to20()
+	  {
+			var a = 'a';
+//			var codeA = ;
+			codeB = Number(a.charCodeAt());
+			for(i=16; i<=20; i++)
+			{
+				cb=codeB+i
+				var ck = String.fromCharCode(cb)
+				var msg="1L";
+				msg=msg+ck;
+				for(j=1; j<=3; j++){
+					var kk=msg;
+					kk+j+"";
+					socket.emit('send_to_arduino',msg+j+"");
+				}
+				
+			}
+	  }
+
+	  function led_on_user1_21to23()
+	  {
+			var a = 'a';
+//			var codeA = ;
+			codeB = Number(a.charCodeAt());
+			for(i=21; i<=23; i++)
+			{
+				cb=codeB+i
+				var ck = String.fromCharCode(cb)
+				var msg="1L";
+				msg=msg+ck;
+				for(j=1; j<=3; j++){
+					var kk=msg;
+					kk+j+"";
+					socket.emit('send_to_arduino',msg+j+"");
+				}
+				
+			}
+	  }
+
+	  
+	  function send_to_arduino_for_motor(obj)
+	  {
+		$("#ck").val(obj.val());
+		socket.emit('send_to_arduino',obj.val());
+	  }
+
+		function show_moter_table()
+		{
+			var a = 'a';
+//			var codeA = ;
+			codeB = Number(a.charCodeAt());
+			for(i=0; i<=23; i++)
+			{
+				cb=codeB+i
+				var ck = String.fromCharCode(cb)
+				$('#moter_table').append("<tr>");
+				$('#moter_table tr:last').append("<td>"+(i+1)+"</td>");
+				$('#moter_table tr:last').append("<td><input type='button' value=1M"+ck+" onClick='send_to_arduino_for_motor($(this))'></td>");
+				$('#moter_table tr:last').append("<td><input type='button' value=2M"+ck+" onClick='send_to_arduino_for_motor($(this))'></td>");
+				$('#moter_table tr:last').append("<td><input type='button' value=3M"+ck+" onClick='send_to_arduino_for_motor($(this))'></td>");
+				$('#moter_table').append("</tr>");
+			}
+		}
+
+		function show_led_table()
+		{
+			var a = 'a';
+//			var codeA = ;
+			codeB = Number(a.charCodeAt());
+			for(i=0; i<=23; i++)
+			{
+				cb=codeB+i
+				var ck = String.fromCharCode(cb)
+				$('#led_table').append("<tr><td> 도시명 [ "+ck+" ] </td><td><table class='led_table_sub'border='1'><tr><td><input type='button' value=1L"+ck+"1 onClick='send_to_arduino_for_motor($(this))'></td><td><input type='button' value=1L"+ck+"2 onClick='send_to_arduino_for_motor($(this))'></td><td><input type='button' value=1L"+ck+"3 onClick='send_to_arduino_for_motor($(this))'></td></tr><tr><td><input type='button' value=2L"+ck+"1 onClick='send_to_arduino_for_motor($(this))'></td><td><input type='button' value=2L"+ck+"2 onClick='send_to_arduino_for_motor($(this))'></td><td><input type='button' value=2L"+ck+"3 onClick='send_to_arduino_for_motor($(this))'></td></tr><tr><td><input type='button' value=3L"+ck+"1 onClick='send_to_arduino_for_motor($(this))'></td><td><input type='button' value=3L"+ck+"2 onClick='send_to_arduino_for_motor($(this))'></td><td><input type='button' value=3L"+ck+"3 onClick='send_to_arduino_for_motor($(this))'></td></tr></table></td></tr>");				
+			}			
+		}
+
+    </script>
+  </head>
+  <body>
+ 
+    
+
+	<input type="text" id="send_message"><input id="send_submit" type="submit" value="전송">
+	 최근 전송한 버튼 값: <input type="text" id="ck" value="">
+	<table>
+	<tr>
+		<td valign="top">
+			<table id="moter_table" border="1"></table>
+		</td>
+		<Td>
+			<table id="led_table" border="1" width="300px"></table>
+		</td>
+		<td valign="top">
+			<input type='button' value="A" onClick='send_to_arduino_for_motor($(this))'>
+			<input type='button' value="B" onClick='send_to_arduino_for_motor($(this))'>
+			<input type='button' value="C" onClick='send_to_arduino_for_motor($(this))'>
+			<input type='button' value="R" onClick='send_to_arduino_for_motor($(this))'>
+			<input type='button' value="1번사용자 불01" onClick='led_on_user1_01to05()'/>
+			<input type='button' value="1번사용자 불06" onClick='led_on_user1_06to10()'/>
+			<input type='button' value="1번사용자 불11" onClick='led_on_user1_11to15()'/>
+			<input type='button' value="1번사용자 불16" onClick='led_on_user1_16to20()'/>
+			<input type='button' value="1번사용자 불21" onClick='led_on_user1_21to23()'/>
+
+		</td>
+	</tr>
+	</table>
+
+  </body>
+</html>
