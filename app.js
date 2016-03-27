@@ -83,7 +83,7 @@ function LandInfo( _idx, _name, _landprice, _buildingPrice, _hotelPrice, _LandMa
    this.isAttract = _isAttract;					//현재 이 땅이 관광지인지 아닌지 상태 변수
    this.buildState = _buildState;				//현재 건물이 지어진 현황
 
-   this.arduinoPosition = _arduinoPosition		//아두이노 위치값
+   this.arduinoPosition = _arduinoPositionnn		//아두이노 위치값
 }
 
 
